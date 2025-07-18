@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ## Co-policy: Responsive Human-Robot Co-Creation for Musical Performances
 ### Video Demonstrations of Co-policy in Real-world Scenarios
 [Video of Semantic music co-creation](https://github.com/user-attachments/assets/ec639a5c-d5c8-4b5a-a157-8e060b446a47)
