@@ -8,8 +8,7 @@
 
 ### Generalization Performace of Co-policy in Maniskill2 Simulator
 
-![10-ezgif com-resize](https://github.com/user-attachments/assets/592da5f9-5052-4ab5-af1d-02dbd132c28f)
-![34-ezgif com-resize](https://github.com/user-attachments/assets/83fbaabd-4339-43ac-bbf2-0c5ed6febd6a)
-![49-ezgif com-resize](https://github.com/user-attachments/assets/b827b25d-ba80-4cd0-ad92-0e066ed12622)
-![7-ezgif com-resize](https://github.com/user-attachments/assets/f2a1435c-62b2-49b2-aadd-797df2df3b6c)
-
+![10-ezgif com-resize](https://github.com/user-attachments/assets/8d11e176-cc3d-459b-b17a-f7ddc63f3f04)
+![34-ezgif com-resize](https://github.com/user-attachments/assets/cb167fed-665c-4b07-ba4c-d7e50145fa32)
+![49-ezgif com-resize](https://github.com/user-attachments/assets/2551de37-f228-4069-9cdf-36c55335f0ed)
+![7-ezgif com-resize](https://github.com/user-attachments/assets/67822e24-31b3-4130-9141-3bd18ac3dff2)
