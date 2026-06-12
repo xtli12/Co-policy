@@ -1,0 +1,26 @@
+{
+  "joyful": {
+    "style_descriptor": "joyful melody",
+    "technical_annotation": "allegro moderato, 4/4 time",
+    "tempo_range": [120, 140],
+    "robot_playability_tags": ["short motif", "clear onset", "reachable bells"]
+  },
+  "energetic": {
+    "style_descriptor": "energetic rhythm",
+    "technical_annotation": "vivace, syncopated rhythm",
+    "tempo_range": [140, 180],
+    "robot_playability_tags": ["limited leaps", "strong onsets", "stable tempo"]
+  },
+  "peaceful": {
+    "style_descriptor": "peaceful harmony",
+    "technical_annotation": "andante, legato phrasing",
+    "tempo_range": [60, 80],
+    "robot_playability_tags": ["slow tempo", "gentle strike", "small interval"]
+  },
+  "dramatic": {
+    "style_descriptor": "dramatic expression",
+    "technical_annotation": "forte, staccato expression",
+    "tempo_range": [100, 120],
+    "robot_playability_tags": ["accented strike", "clear rhythm", "safe reach"]
+  }
+}

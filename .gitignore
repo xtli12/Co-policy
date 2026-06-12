@@ -1,0 +1,46 @@
+﻿# Python cache and bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Local configuration and secrets
+.env
+.env.*
+*.key
+*.pem
+*credential*
+*secret*
+speech_recognition_v2/configs.yaml
+
+# Logs and experiment outputs
+*.log
+runs/
+wandb/
+work_dirs/
+outputs/
+checkpoints/
+
+# Large model/data artifacts
+models/
+data/
+demos/
+*.pth
+*.pt
+*.ckpt
+*.h5
+*.hdf5
+*.pkl
+*.npy
+*.npz
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,23 @@
+# Music processing dependencies
+librosa>=0.10.0
+soundfile>=0.12.1
+numpy>=1.21.0
+scipy>=1.7.0
+
+# Deep learning
+torch>=1.12.0
+torchvision>=0.13.0
+einops>=0.6.0
+
+# Audio processing
+pyaudio>=0.2.11
+wave>=0.0.2
+
+# Robotic control (assuming you have this installed)
+# rm_robot_interface (your custom module)
+# Install the Realman/Robotic_Arm SDK separately according to your robot vendor setup
+
+# Existing dependencies from your project
+dashscope
+pyyaml
+opencv-python
