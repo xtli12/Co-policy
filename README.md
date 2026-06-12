@@ -6,6 +6,7 @@ This repository contains two parts:
 
 - `Real_robot/`: real-robot music co-creation code for Qwen-VL prompting, semantic anchors, constrained planning, and GMP-based chime execution.
 - `maniskill2_learn/` and `configs/`: ManiSkill2-based imitation/RL infrastructure used as a secondary visuomotor generalization sanity check.
+- `docs/`: a static promotional page for the paper, designed for GitHub Pages-style deployment.
 
 ## Demonstrations
 
