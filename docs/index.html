@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Co-policy: Responsive Human-Robot Co-Creation</title>
+    <meta
+      name="description"
+      content="Co-policy is an embodied AI framework for responsive human-robot musical co-creation."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <a class="brand" href="#top">Co-policy</a>
+        <nav>
+          <a href="#top">Home</a>
+          <a href="#method">Research</a>
+          <a href="https://github.com/xtli12/Co-policy" target="_blank" rel="noreferrer">Code</a>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="title-block">
+          <h1>Co-policy: Responsive Human-Robot Co-Creation for Musical Performances</h1>
+        </section>
+
+        <section class="prose meta-block" aria-label="Paper metadata">
+          <div class="meta-grid">
+            <div>Email</div>
+            <div>
+              <span class="dotted">xtli312@whu.edu.cn</span>
+            </div>
+            <div>Code</div>
+            <div>
+              <a href="https://github.com/xtli12/Co-policy" target="_blank" rel="noreferrer">
+                github.com/xtli12/Co-policy
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section class="hero-video" aria-label="Co-policy video demonstration">
+          <video controls playsinline preload="metadata">
+            <source src="../Co-policy_Video_Demonstration.mp4" type="video/mp4" />
+            Your browser does not support embedded video.
+          </video>
+        </section>
+
+        <section class="prose">
+          <p>
+            Art has long stood as a pivotal expression of human creativity, and music is a
+            compact but demanding testbed for embodied artificial intelligence. Most generative
+            AI systems create disembodied content: text, images, audio, or symbolic scores. A
+            robot musician must do something harder. It must understand an incomplete human
+            seed, contribute a complementary musical response, and realize that response through
+            timed physical contact with an instrument.
+          </p>
+          <p>
+            Co-policy is a modular embodied AI agent for human-robot musical co-creation. It
+            combines semantic intent grounding, constrained musical variation, and a low-latency
+            Gaussian-Mixture Visuomotor Policy (GMP), allowing a chime-striking robot to move
+            beyond playback and participate in physically grounded musical interaction.
+          </p>
+        </section>
+
+        <section class="carousel-strip" aria-label="Demo GIFs from the GitHub repository">
+          <figure>
+            <img src="https://raw.githubusercontent.com/xtli12/Co-policy/main/figs/Co-create/Semantic3x.gif" alt="Semantic music co-creation demo" />
+            <figcaption>Semantic music co-creation</figcaption>
+          </figure>
+          <figure>
+            <img src="https://raw.githubusercontent.com/xtli12/Co-policy/main/figs/Co-create/concerto2_5x.gif" alt="Concerto co-creation demo" />
+            <figcaption>Concerto co-creation</figcaption>
+          </figure>
+          <figure>
+            <img src="https://raw.githubusercontent.com/xtli12/Co-policy/main/figs/Co-create/generalization.gif" alt="GMP generalization demo" />
+            <figcaption>GMP generalization</figcaption>
+          </figure>
+        </section>
+
+        <section id="method" class="prose">
+          <h3>A modular embodied co-creation agent</h3>
+          <p>
+            The core challenge is to connect semantic musical understanding with real-time,
+            physically executable action. Co-policy addresses this through three coupled modules:
+            a semantic anchor bank for Qwen-VL, a constrained musical variation planner, and
+            a single-pass mixture-density visuomotor policy for robot execution.
+          </p>
+        </section>
+
+        <section class="pipeline-figure" aria-label="Co-policy architecture figure">
+          <img src="../Pipeline.png" alt="Overview of the Co-policy pipeline" />
+        </section>
+
+        <section class="prose">
+          <p>
+            Unlike robotic playback systems that merely reproduce user-specified notes,
+            Co-policy interprets an incomplete creative seed under musical and physical
+            constraints. The semantic anchor bank provides style descriptors, technical
+            annotations, score context, robot-playability tags, and structured target plans.
+            The planner preserves the human motif while introducing harmonic, rhythmic, or
+            accompaniment variation.
+          </p>
+          <h3>Why a Gaussian-Mixture Visuomotor Policy?</h3>
+          <p>
+            A single target note can be reached through multiple feasible motions, such as a
+            top-down strike, side swing, or gentle tap. Deterministic behavior cloning tends to
+            average these alternatives, while diffusion-policy execution can preserve
+            multimodality at the cost of repeated denoising. GMP represents these alternatives
+            as latent action modes and predicts mixture parameters in one forward pass.
+          </p>
+        </section>
+
+        <section class="mode-graphic" aria-label="GMP latent action modes">
+          <div class="mode-card yellow">
+            <span>Mode 1</span>
+            <strong>Top-down strike</strong>
+          </div>
+          <div class="mode-card">
+            <span>Mode 2</span>
+            <strong>Side swing</strong>
+          </div>
+          <div class="mode-card">
+            <span>Mode 3</span>
+            <strong>Gentle tap</strong>
+          </div>
+          <div class="formula">
+            { mixture weights, means, covariances } = f<sub>θ</sub>(vision, note plan)
+          </div>
+        </section>
+
+        <section id="results" class="prose">
+          <h3>Evaluating Co-policy on real-robot musical co-creation</h3>
+          <p>
+            We evaluate Co-policy on real-robot chime performance and use ManiSkill2 as a
+            secondary visuomotor generalization sanity check. The real-robot study focuses on
+            whether the agent aligns with human intent, contributes new musical material,
+            executes feasible actions, and responds at interactive speed.
+          </p>
+        </section>
+
+        <section class="chart-panel" aria-label="Performance comparison">
+          <div class="chart-title">Chime Striking Evaluation</div>
+          <div class="eval-grid">
+            <div class="eval-head">
+              <span>Method</span>
+              <span>Acc</span>
+              <span>Freq</span>
+            </div>
+            <div class="eval-row">
+              <strong>ManiSkill2-style</strong>
+              <div class="metric-line">
+                <span style="width: 64%"></span>
+                <em>0.44</em>
+              </div>
+              <div class="metric-line freq-line">
+                <span style="width: 82%"></span>
+                <em>15.2 Hz</em>
+              </div>
+            </div>
+            <div class="eval-row">
+              <strong>BC</strong>
+              <div class="metric-line">
+                <span style="width: 74%"></span>
+                <em>0.51</em>
+              </div>
+              <div class="metric-line freq-line">
+                <span style="width: 54%"></span>
+                <em>10.1 Hz</em>
+              </div>
+            </div>
+            <div class="eval-row">
+              <strong>Diffusion Policy</strong>
+              <div class="metric-line">
+                <span style="width: 81%"></span>
+                <em>0.56</em>
+              </div>
+              <div class="metric-line freq-line">
+                <span style="width: 6%"></span>
+                <em>1.01 Hz</em>
+              </div>
+            </div>
+            <div class="eval-row">
+              <strong>DROID-adapted BC</strong>
+              <div class="metric-line">
+                <span style="width: 68%"></span>
+                <em>0.47</em>
+              </div>
+              <div class="metric-line freq-line">
+                <span style="width: 76%"></span>
+                <em>14.2 Hz</em>
+              </div>
+            </div>
+            <div class="eval-row ours">
+              <strong>Co-policy</strong>
+              <div class="metric-line">
+                <span style="width: 100%"></span>
+                <em>0.69</em>
+              </div>
+              <div class="metric-line freq-line">
+                <span style="width: 100%"></span>
+                <em>18.6 Hz</em>
+              </div>
+            </div>
+          </div>
+          <div class="legend">
+            <span><i class="acc-key"></i> combined accuracy</span>
+            <span><i class="freq-key"></i> post-command action frequency</span>
+          </div>
+          <p>
+            Table values from the paper: Co-policy reaches 0.69 combined chime-striking
+            accuracy and 18.6 Hz post-command action frequency. The frequency measures the
+            visuomotor execution loop after a robot command is available; it is not a full
+            speech-to-action latency claim.
+          </p>
+        </section>
+
+        <section id="demos" class="prose">
+          <h3>Where do we go from here?</h3>
+          <p>
+            Co-policy points toward embodied AI systems that can participate in artistic
+            practice rather than only generating disembodied media. The current system is still
+            bounded by the semantic anchor bank, the available instrument, acoustic noise, and
+            limited tactile or force feedback. Future work will extend the framework to richer
+            acoustic source separation, contact feedback, additional instruments, multi-robot
+            ensembles, and longer human-AI improvisation.
+          </p>
+          <p>
+            The implementation is available in the accompanying GitHub repository, including
+            semantic anchors, the constrained music planner, the real-robot execution loop, and
+            ManiSkill2-based evaluation infrastructure.
+          </p>
+        </section>
+      </main>
+
+      <footer>
+        <p class="footer-brand">Co-policy</p>
+        <nav>
+          <a href="#top">Home</a>
+          <a href="#method">Research</a>
+          <a href="https://github.com/xtli12/Co-policy" target="_blank" rel="noreferrer">Code</a>
+        </nav>
+      </footer>
+    </div>
+  </body>
+</html>
