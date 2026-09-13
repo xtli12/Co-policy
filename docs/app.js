@@ -2,9 +2,10 @@
  *
  *   1. Guided self-attention explorer  - paper Figure 2
  *   2. Gaussian-mixture action generator - paper Figure 5(a)
+ *   3. Semantic anchor bank            - paper Figure 4
  *
- * Both widgets progressively enhance static markup, so the page stays readable
- * with scripting disabled.
+ * All three widgets progressively enhance static markup, so the page stays
+ * readable with scripting disabled.
  */
 (function () {
   "use strict";
@@ -647,9 +648,154 @@
       .join("");
   }
 
+  /* ==================================================================
+   * 3. Semantic anchor bank (paper Section 3.1 and Figure 4)
+   * ================================================================== */
+
+  /* Transcribed verbatim from Real_robot/semantic_anchors.json. */
+  var ANCHORS = {
+    joyful: {
+      style_descriptor: "joyful melody",
+      technical_annotation: "allegro moderato, 4/4 time",
+      tempo_range: [120, 140],
+      robot_playability_tags: ["short motif", "clear onset", "reachable bells"]
+    },
+    energetic: {
+      style_descriptor: "energetic rhythm",
+      technical_annotation: "vivace, syncopated rhythm",
+      tempo_range: [140, 180],
+      robot_playability_tags: ["limited leaps", "strong onsets", "stable tempo"]
+    },
+    peaceful: {
+      style_descriptor: "peaceful harmony",
+      technical_annotation: "andante, legato phrasing",
+      tempo_range: [60, 80],
+      robot_playability_tags: ["slow tempo", "gentle strike", "small interval"]
+    },
+    dramatic: {
+      style_descriptor: "dramatic expression",
+      technical_annotation: "forte, staccato expression",
+      tempo_range: [100, 120],
+      robot_playability_tags: ["accented strike", "clear rhythm", "safe reach"]
+    }
+  };
+
+  /* The motif printed in the paper's prompt figure (C4 E4 G4), written as MIDI
+   * numbers because create_music_prompt() formats seed notes that way. */
+  var SEED_NOTES = "Note60 | Note64 | Note67";
+
+  function initAnchorExplorer() {
+    var root = document.querySelector("[data-anchor-explorer]");
+    if (!root) {
+      return;
+    }
+
+    var chips = toArray(root.querySelectorAll("[data-anchor]"));
+    var prompt = root.querySelector("[data-anchor-prompt]");
+    var fields = {};
+    toArray(root.querySelectorAll("[data-anchor-field]")).forEach(function (node) {
+      fields[node.getAttribute("data-anchor-field")] = node;
+    });
+
+    /* Line for line the string returned by create_music_prompt(). Only the two
+     * flagged lines are written by the anchor. */
+    function promptLines(mood, anchor) {
+      return [
+        { text: "You are a musical co-creator for a physical chime-playing robot." },
+        { text: "Generate a complementary response rather than copying the human seed." },
+        {
+          text:
+            "Return JSON with fields: intent, style, tempo, human_seed, robot_role, " +
+            "available_notes, and robot_notes."
+        },
+        { text: "" },
+        {
+          text:
+            "Style anchor: " +
+            anchor.style_descriptor +
+            " - " +
+            anchor.technical_annotation,
+          fromAnchor: true
+        },
+        {
+          text:
+            "Robot playability constraints: " +
+            anchor.robot_playability_tags.join(", "),
+          fromAnchor: true
+        },
+        { text: "Current human seed notes: [" + SEED_NOTES + "]" },
+        { text: "User command: play something " + mood + " with me" }
+      ];
+    }
+
+    function select(mood, moveFocus) {
+      var anchor = ANCHORS[mood];
+      if (!anchor) {
+        return;
+      }
+
+      chips.forEach(function (chip) {
+        var on = chip.getAttribute("data-anchor") === mood;
+        chip.setAttribute("aria-checked", on ? "true" : "false");
+        chip.tabIndex = on ? 0 : -1;
+        if (on && moveFocus) {
+          chip.focus();
+        }
+      });
+
+      fields.style_descriptor.textContent = anchor.style_descriptor;
+      fields.technical_annotation.textContent = anchor.technical_annotation;
+      fields.tempo_range.textContent =
+        anchor.tempo_range[0] + " \u2013 " + anchor.tempo_range[1] + " BPM";
+
+      fields.tags.textContent = "";
+      anchor.robot_playability_tags.forEach(function (tag) {
+        var node = document.createElement("span");
+        node.className = "anchor-tag";
+        node.textContent = tag;
+        fields.tags.appendChild(node);
+      });
+
+      /* Real newline nodes rather than block-level spans, so selecting the block
+       * copies the prompt with its line breaks intact. */
+      prompt.textContent = "";
+      promptLines(mood, anchor).forEach(function (line, index) {
+        if (index > 0) {
+          prompt.appendChild(document.createTextNode("\n"));
+        }
+        if (!line.fromAnchor) {
+          prompt.appendChild(document.createTextNode(line.text));
+          return;
+        }
+        var node = document.createElement("span");
+        node.className = "anchor-line is-anchor";
+        node.textContent = line.text;
+        prompt.appendChild(node);
+      });
+    }
+
+    chips.forEach(function (chip, index) {
+      chip.addEventListener("click", function () {
+        select(chip.getAttribute("data-anchor"), false);
+      });
+      chip.addEventListener("keydown", function (event) {
+        var next = radioKeyTarget(event.key, index, chips.length);
+        if (next === null) {
+          return;
+        }
+        event.preventDefault();
+        select(chips[next].getAttribute("data-anchor"), true);
+      });
+    });
+
+    root.classList.add("is-interactive");
+    select("joyful", false);
+  }
+
   function boot() {
     initGsaExplorer();
     initGmmExplorer();
+    initAnchorExplorer();
   }
 
   if (document.readyState === "loading") {
