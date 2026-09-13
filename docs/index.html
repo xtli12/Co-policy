@@ -10,8 +10,8 @@
     />
     <!-- GitHub Pages serves these with max-age=600, so bump ?v= on every change
          or a returning reader keeps the previous stylesheet and script. -->
-    <link rel="stylesheet" href="styles.css?v=4" />
-    <script src="app.js?v=4" defer></script>
+    <link rel="stylesheet" href="styles.css?v=5" />
+    <script src="app.js?v=5" defer></script>
   </head>
   <body>
     <div class="page">
@@ -383,7 +383,7 @@
                   <path d="M400 246 L450 246 L464 290 L386 290 Z" />
                   <text x="425" y="276">F</text>
                   <line x1="392" y1="288" x2="458" y2="248" />
-                  <text class="a-bell-tag" x="425" y="308">occluded</text>
+                  <text class="a-bell-tag" x="425" y="308">unavailable</text>
                 </g>
                 <g class="a-bell">
                   <path d="M494 246 L544 246 L558 290 L480 290 Z" />
@@ -403,7 +403,7 @@
 
             <ul class="anchor-verdict" data-outcome-verdict>
               <li class="is-yes">new material, not a copy</li>
-              <li class="is-yes">avoids the occluded bell</li>
+              <li class="is-yes">keeps clear of the unavailable bell</li>
             </ul>
           </div>
 
@@ -453,7 +453,12 @@
             <p class="anchor-source">
               Retained average scores for the deployed GMP policy, blinded and randomized, with no
               trimming of high-variance artistic ratings. The two responses above are the ones
-              printed in the paper&rsquo;s prompt figure.
+              printed in the paper&rsquo;s prompt figure, and the unavailable F is that
+              figure&rsquo;s illustrative instrument state: a bell counts as unavailable when it is
+              unreachable, visually blocked, or still ringing. The released planner does not derive
+              that state, it snaps generated notes to a fixed playable set of all seven chime
+              notes, so treat the bell row as the constraint the anchored planner is asked to
+              respect rather than as output of a shipped detector.
             </p>
           </div>
 
