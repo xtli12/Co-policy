@@ -9,6 +9,7 @@
       content="Co-policy is an embodied AI framework for responsive human-robot musical co-creation."
     />
     <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
   </head>
   <body>
     <div class="page">
@@ -94,6 +95,140 @@
           <img src="../Pipeline.png" alt="Overview of the Co-policy pipeline" />
         </section>
 
+        <section id="encoder" class="prose">
+          <h3>Two streams, one guided attention</h3>
+          <p>
+            Striking the right bell needs two kinds of evidence that pull against each other:
+            the layout of the whole chime frame, and the texture of one bell edge where the
+            mallet has to land. A single token sequence cannot serve both roles, because the
+            long-range terms dominate and fine contact detail is averaged away. Co-policy
+            therefore keeps a global and a local branch separate, and couples them
+            <em>asymmetrically</em> through guided self-attention.
+          </p>
+        </section>
+
+        <section
+          class="feature-explorer"
+          data-gsa-explorer
+          aria-labelledby="gsa-explorer-title"
+        >
+          <div class="explorer-head">
+            <div class="chart-title" id="gsa-explorer-title">
+              Guided Self-Attention: What The Encoder Looks At
+            </div>
+            <p class="explorer-hint">
+              Select a stage to highlight the feature it produces. The maps below are the ones
+              published in the paper, for the same observation.
+            </p>
+          </div>
+
+          <div class="stage-chips" role="radiogroup" aria-label="Encoder stage">
+            <button type="button" class="chip" role="radio" data-stage="obs" aria-checked="true" tabindex="0">
+              <span class="chip-index" aria-hidden="true">1</span>
+              <span class="chip-text">
+                <span class="chip-key"><em>O</em></span>
+                <span class="chip-name">Observation</span>
+              </span>
+            </button>
+            <button type="button" class="chip" role="radio" data-stage="f1" aria-checked="false" tabindex="-1">
+              <span class="chip-index" aria-hidden="true">2</span>
+              <span class="chip-text">
+                <span class="chip-key">F<sub>1</sub> = &phi;<sub>e</sub>(<em>O</em>)</span>
+                <span class="chip-name">Local stream</span>
+              </span>
+            </button>
+            <button type="button" class="chip" role="radio" data-stage="f2" aria-checked="false" tabindex="-1">
+              <span class="chip-index" aria-hidden="true">3</span>
+              <span class="chip-text">
+                <span class="chip-key">F<sub>2</sub> = &phi;<sub>s</sub>(<em>O</em>)</span>
+                <span class="chip-name">Global stream</span>
+              </span>
+            </button>
+            <button type="button" class="chip" role="radio" data-stage="align" aria-checked="false" tabindex="-1">
+              <span class="chip-index" aria-hidden="true">4</span>
+              <span class="chip-text">
+                <span class="chip-key">AWCA + PSNL</span>
+                <span class="chip-name">Channel alignment</span>
+              </span>
+            </button>
+            <button type="button" class="chip" role="radio" data-stage="gsa" aria-checked="false" tabindex="-1">
+              <span class="chip-index" aria-hidden="true">5</span>
+              <span class="chip-text">
+                <span class="chip-key">Q<sub>S</sub> &middot; K<sub>E</sub><sup>T</sup></span>
+                <span class="chip-name">Guided attention</span>
+              </span>
+            </button>
+            <button type="button" class="chip" role="radio" data-stage="f3" aria-checked="false" tabindex="-1">
+              <span class="chip-index" aria-hidden="true">6</span>
+              <span class="chip-text">
+                <span class="chip-key">F<sub>3</sub></span>
+                <span class="chip-name">Localized target</span>
+              </span>
+            </button>
+          </div>
+
+          <div class="feature-strip">
+            <figure class="feature-panel" data-panel="obs">
+              <div class="panel-frame">
+                <img src="assets/gsa-obs.png" alt="Egocentric RGB view of the chime rack" />
+                <span class="panel-badge" data-badge hidden></span>
+              </div>
+              <figcaption>
+                <b><em>O</em></b>
+                <span>RGB observation</span>
+              </figcaption>
+            </figure>
+            <figure class="feature-panel" data-panel="f1">
+              <div class="panel-frame">
+                <img
+                  src="assets/gsa-f1.png"
+                  alt="Local feature map with many small high-response patches across bell edges"
+                />
+                <span class="panel-badge" data-badge hidden></span>
+              </div>
+              <figcaption>
+                <b>F<sub>1</sub></b>
+                <span>local, pixel-wise detail</span>
+              </figcaption>
+            </figure>
+            <figure class="feature-panel" data-panel="f2">
+              <div class="panel-frame">
+                <img
+                  src="assets/gsa-f2.png"
+                  alt="Global feature map with a smooth response spread over the whole chime frame"
+                />
+                <span class="panel-badge" data-badge hidden></span>
+              </div>
+              <figcaption>
+                <b>F<sub>2</sub></b>
+                <span>global, long-range layout</span>
+              </figcaption>
+            </figure>
+            <figure class="feature-panel" data-panel="f3">
+              <div class="panel-frame">
+                <img
+                  src="assets/gsa-f3.png"
+                  alt="Guided attention map with a single strong response on the target bell"
+                />
+                <span class="panel-badge" data-badge hidden></span>
+              </div>
+              <figcaption>
+                <b>F<sub>3</sub></b>
+                <span>one localized target</span>
+              </figcaption>
+            </figure>
+          </div>
+
+          <div class="explorer-readout">
+            <h4>Stage detail</h4>
+            <p data-stage-copy>
+              A single egocentric RGB frame is the only visual input, and both encoder branches
+              read that same frame. Nothing is discarded by a pre-selected crop or a
+              hand-designed region of interest.
+            </p>
+          </div>
+        </section>
+
         <section class="prose">
           <p>
             Unlike robotic playback systems that merely reproduce user-specified notes,
@@ -113,22 +248,115 @@
           </p>
         </section>
 
-        <section class="mode-graphic" aria-label="GMP latent action modes">
-          <div class="mode-card yellow">
-            <span>Mode 1</span>
-            <strong>Top-down strike</strong>
+        <section class="gmm-explorer" data-gmm-explorer aria-labelledby="gmm-explorer-title">
+          <div class="explorer-head">
+            <div class="chart-title" id="gmm-explorer-title">
+              GMP Inference: One Forward Pass, Several Action Modes
+            </div>
+            <p class="explorer-hint">
+              Step through a single inference pass, switch the selection rule, or pick a mode to
+              inspect it. Blobs and bars are clickable.
+            </p>
           </div>
-          <div class="mode-card">
-            <span>Mode 2</span>
-            <strong>Side swing</strong>
+
+          <div class="mode-graphic" role="radiogroup" aria-label="Mixture component">
+            <button
+              type="button"
+              class="mode-card"
+              role="radio"
+              data-component="m1"
+              aria-checked="true"
+              tabindex="0"
+            >
+              <span>Mode 1</span>
+              <strong>Top-down strike</strong>
+              <b class="mode-weight" style="--swatch: #8f6fc0">&pi; = 0.53</b>
+            </button>
+            <button
+              type="button"
+              class="mode-card"
+              role="radio"
+              data-component="m2"
+              aria-checked="false"
+              tabindex="-1"
+            >
+              <span>Mode 2</span>
+              <strong>Side swing</strong>
+              <b class="mode-weight" style="--swatch: #d9534f">&pi; = 0.28</b>
+            </button>
+            <button
+              type="button"
+              class="mode-card"
+              role="radio"
+              data-component="m3"
+              aria-checked="false"
+              tabindex="-1"
+            >
+              <span>Mode 3</span>
+              <strong>Gentle tap</strong>
+              <b class="mode-weight" style="--swatch: #4c7e4d">&pi; = 0.19</b>
+            </button>
           </div>
-          <div class="mode-card">
-            <span>Mode 3</span>
-            <strong>Gentle tap</strong>
+
+          <div class="gmm-body">
+            <div class="gmm-stage" data-gmm-stage>
+              <noscript>
+                <p class="gmm-fallback">
+                  Each Gaussian component of GMP is one feasible action mode over the whole
+                  six-DoF action segment. At inference the mixture parameters are predicted in a
+                  single forward pass, then the most likely mode is selected without EM fitting
+                  or iterative refinement.
+                </p>
+              </noscript>
+            </div>
+
+            <aside class="gmm-side">
+              <div class="gmm-controls">
+                <div class="gmm-steps" role="group" aria-label="Inference step">
+                  <button type="button" data-step="0" aria-current="step">1 Encode</button>
+                  <button type="button" data-step="1" aria-current="false">2 Predict</button>
+                  <button type="button" data-step="2" aria-current="false">3 Modes</button>
+                  <button type="button" data-step="3" aria-current="false">4 Select</button>
+                  <button type="button" data-step="4" aria-current="false">5 Execute</button>
+                </div>
+                <button type="button" class="gmm-play" data-play aria-pressed="false">Play</button>
+              </div>
+
+              <div class="gmm-rule-row">
+                <h4>Selection rule</h4>
+                <div class="gmm-rule" role="radiogroup" aria-label="Selection rule">
+                  <button type="button" role="radio" data-rule="argmax" aria-checked="true" tabindex="0">
+                    most likely mode
+                  </button>
+                  <button
+                    type="button"
+                    role="radio"
+                    data-rule="expectation"
+                    aria-checked="false"
+                    tabindex="-1"
+                  >
+                    mixture average
+                  </button>
+                </div>
+              </div>
+
+              <h4 data-step-title>1 / 5 &middot; Encode the observation</h4>
+              <p data-step-copy>
+                Guided self-attention turns the RGB frame into one feature vector. The action
+                space is still empty: no motion has been proposed yet.
+              </p>
+              <div class="formula" data-formula>
+                { mixture weights, means, covariances } = f<sub>&theta;</sub>(vision, note plan)
+              </div>
+              <p class="gmm-readout" data-readout>Top-down strike&ensp;&pi; = 0.53</p>
+            </aside>
           </div>
-          <div class="formula">
-            { mixture weights, means, covariances } = f<sub>θ</sub>(vision, note plan)
-          </div>
+
+          <p class="explorer-note">
+            Schematic, in the same sense as the diagram it reproduces: the component layout and
+            weights illustrate the mechanism and are not measured per-component values. The
+            reported quantitative results are the accuracy and action-frequency figures below.
+          </p>
         </section>
 
         <section id="results" class="prose">
