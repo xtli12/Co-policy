@@ -213,6 +213,7 @@ h4 {
 .chart-panel,
 .feature-explorer,
 .gmm-explorer,
+.anchor-explorer,
 .pipeline-figure {
   width: min(84rem, 100%);
   margin: 3rem auto;
@@ -495,7 +496,10 @@ h4 {
 }
 
 .chart-title {
+  /* Hug the text on wide screens, but wrap instead of spilling out of the
+     container once the viewport is narrower than the heading. */
   width: max-content;
+  max-width: 100%;
   margin-bottom: 2rem;
   padding: 0.5rem;
   background: var(--panel-light);
@@ -639,7 +643,8 @@ footer p {
  * ------------------------------------------------------------------ */
 
 .feature-explorer,
-.gmm-explorer {
+.gmm-explorer,
+.anchor-explorer {
   padding: clamp(1rem, 4vw, 3rem);
   background-color: var(--background);
   background-image:
@@ -652,7 +657,8 @@ footer p {
 }
 
 .feature-explorer :focus-visible,
-.gmm-explorer :focus-visible {
+.gmm-explorer :focus-visible,
+.anchor-explorer :focus-visible {
   outline: 2px solid #111111;
   outline-offset: 3px;
 }
@@ -1164,6 +1170,91 @@ footer p {
   stroke-dasharray: 3 3;
 }
 
+/* ------------------------------------------------------------------ *
+ * Semantic anchor bank
+ * ------------------------------------------------------------------ */
+
+.anchor-explorer code {
+  font-family: var(--mono);
+  font-size: 0.92em;
+  font-style: normal;
+}
+
+.anchor-body {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.anchor-card {
+  border: 1px solid #c0bdad;
+  background: var(--panel-light);
+  box-shadow: 3px 3px 0 #c0bdad;
+}
+
+.anchor-card-head {
+  border-bottom: 1px solid #c0bdad;
+  padding: 0.5rem 0.9rem;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.anchor-fields {
+  margin: 0;
+  padding: 0.9rem;
+}
+
+.anchor-field + .anchor-field {
+  margin-top: 0.85rem;
+}
+
+.anchor-field dt {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10.5px;
+}
+
+.anchor-field dd {
+  margin: 0.2rem 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.anchor-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.anchor-tag {
+  border: 1px solid #c0bdad;
+  background: var(--background);
+  padding: 0.1rem 0.45rem;
+  font-size: 11px;
+}
+
+.anchor-code {
+  margin: 0;
+  padding: 0.9rem;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+/* Highlight stays inline so the surrounding text nodes keep their newlines. */
+.anchor-line.is-anchor {
+  background: var(--yellow);
+  box-shadow:
+    2px 0 0 var(--yellow),
+    -2px 0 0 var(--yellow);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .chip,
   .mode-card,
@@ -1187,7 +1278,8 @@ footer p {
 }
 
 @media (max-width: 1024px) {
-  .gmm-body {
+  .gmm-body,
+  .anchor-body {
     grid-template-columns: 1fr;
   }
 

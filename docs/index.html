@@ -238,6 +238,110 @@
             The planner preserves the human motif while introducing harmonic, rhythmic, or
             accompaniment variation.
           </p>
+        </section>
+
+        <section
+          class="anchor-explorer"
+          data-anchor-explorer
+          aria-labelledby="anchor-explorer-title"
+        >
+          <div class="explorer-head">
+            <div class="chart-title" id="anchor-explorer-title">
+              The Semantic Anchor Bank: A Mood Word Becomes A Constraint
+            </div>
+            <p class="explorer-hint">
+              Pick the mood a player might say out loud. All four anchors are reproduced verbatim
+              from <code>Real_robot/semantic_anchors.json</code>, and the prompt is the one
+              <code>create_music_prompt()</code> builds in
+              <code>Real_robot/music_creation.py</code>. Highlighted lines are the ones the
+              anchor writes.
+            </p>
+          </div>
+
+          <div class="stage-chips" role="radiogroup" aria-label="Mood anchor">
+            <button type="button" class="chip" role="radio" data-anchor="joyful" aria-checked="true" tabindex="0">
+              <span class="chip-index" aria-hidden="true">1</span>
+              <span class="chip-text">
+                <span class="chip-key">joyful</span>
+                <span class="chip-name">120&ndash;140 BPM</span>
+              </span>
+            </button>
+            <button type="button" class="chip" role="radio" data-anchor="energetic" aria-checked="false" tabindex="-1">
+              <span class="chip-index" aria-hidden="true">2</span>
+              <span class="chip-text">
+                <span class="chip-key">energetic</span>
+                <span class="chip-name">140&ndash;180 BPM</span>
+              </span>
+            </button>
+            <button type="button" class="chip" role="radio" data-anchor="peaceful" aria-checked="false" tabindex="-1">
+              <span class="chip-index" aria-hidden="true">3</span>
+              <span class="chip-text">
+                <span class="chip-key">peaceful</span>
+                <span class="chip-name">60&ndash;80 BPM</span>
+              </span>
+            </button>
+            <button type="button" class="chip" role="radio" data-anchor="dramatic" aria-checked="false" tabindex="-1">
+              <span class="chip-index" aria-hidden="true">4</span>
+              <span class="chip-text">
+                <span class="chip-key">dramatic</span>
+                <span class="chip-name">100&ndash;120 BPM</span>
+              </span>
+            </button>
+          </div>
+
+          <div class="anchor-body">
+            <div class="anchor-card">
+              <div class="anchor-card-head">Retrieved anchor record</div>
+              <dl class="anchor-fields">
+                <div class="anchor-field">
+                  <dt>style_descriptor</dt>
+                  <dd data-anchor-field="style_descriptor">joyful melody</dd>
+                </div>
+                <div class="anchor-field">
+                  <dt>technical_annotation</dt>
+                  <dd data-anchor-field="technical_annotation">allegro moderato, 4/4 time</dd>
+                </div>
+                <div class="anchor-field">
+                  <dt>tempo_range</dt>
+                  <dd data-anchor-field="tempo_range">120 &ndash; 140 BPM</dd>
+                </div>
+                <div class="anchor-field">
+                  <dt>robot_playability_tags</dt>
+                  <dd class="anchor-tags" data-anchor-field="tags">
+                    <span class="anchor-tag">short motif</span>
+                    <span class="anchor-tag">clear onset</span>
+                    <span class="anchor-tag">reachable bells</span>
+                  </dd>
+                </div>
+              </dl>
+            </div>
+
+            <div class="anchor-card">
+              <div class="anchor-card-head">Prompt built for Qwen-VL</div>
+              <pre class="anchor-code" data-anchor-prompt aria-live="polite">You are a musical co-creator for a physical chime-playing robot.
+Generate a complementary response rather than copying the human seed.
+Return JSON with fields: intent, style, tempo, human_seed, robot_role, available_notes, and robot_notes.
+
+Style anchor: joyful melody - allegro moderato, 4/4 time
+Robot playability constraints: short motif, clear onset, reachable bells
+Current human seed notes: [Note60 | Note64 | Note67]
+User command: play something joyful with me</pre>
+            </div>
+          </div>
+
+          <p class="explorer-note">
+            Anchors are guardrails rather than a lookup table: they fix style, annotation, and
+            playability, while the note sequence itself is still generated. Two details are easy
+            to miss. An unrecognised mood falls back to <code>joyful</code> instead of failing,
+            and <code>tempo_range</code> is kept for the planner but never reaches the prompt, so
+            the two highlighted lines are the only ones the anchor writes. The seed line shows
+            the paper's example motif C4 E4 G4 as MIDI numbers, which is how the prompt builder
+            formats notes; generated notes are afterwards snapped to the seven playable chime
+            notes, C4 through B4.
+          </p>
+        </section>
+
+        <section class="prose">
           <h3>Why a Gaussian-Mixture Visuomotor Policy?</h3>
           <p>
             A single target note can be reached through multiple feasible motions, such as a
