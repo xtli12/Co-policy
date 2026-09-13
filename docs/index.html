@@ -10,8 +10,8 @@
     />
     <!-- GitHub Pages serves these with max-age=600, so bump ?v= on every change
          or a returning reader keeps the previous stylesheet and script. -->
-    <link rel="stylesheet" href="styles.css?v=2" />
-    <script src="app.js?v=2" defer></script>
+    <link rel="stylesheet" href="styles.css?v=3" />
+    <script src="app.js?v=3" defer></script>
   </head>
   <body>
     <div class="page">
@@ -249,16 +249,87 @@
         >
           <div class="explorer-head">
             <div class="chart-title" id="anchor-explorer-title">
-              The Semantic Anchor Bank: A Mood Word Becomes A Constraint
+              Anchored Planning: Answering Instead Of Echoing
             </div>
             <p class="explorer-hint">
-              Pick the mood a player might say out loud. All four anchors are reproduced verbatim
-              from <code>Real_robot/semantic_anchors.json</code>, and the prompt is the one
-              <code>create_music_prompt()</code> builds in
-              <code>Real_robot/music_creation.py</code>. Highlighted lines are the ones the
-              anchor writes.
+              A playback robot hands back the notes it was given. The point of anchoring the
+              planner before inference is that the robot instead returns something the human did
+              not play, while still only reaching for bells it can actually strike. Switch the two
+              modes below to compare them on the case worked through in the paper.
             </p>
           </div>
+
+          <div class="anchor-scene">
+            <div class="anchor-card-head">What the agent is given</div>
+            <div class="anchor-scene-grid">
+              <div class="anchor-io">
+                <span class="anchor-io-label">human motif</span>
+                <span class="anchor-io-value">C4 E4 G4</span>
+              </div>
+              <div class="anchor-io">
+                <span class="anchor-io-label">tempo</span>
+                <span class="anchor-io-value">120 BPM</span>
+              </div>
+              <div class="anchor-io">
+                <span class="anchor-io-label">spoken mood</span>
+                <span class="anchor-io-value">joyful</span>
+              </div>
+              <div class="anchor-io">
+                <span class="anchor-io-label">bells the camera sees free</span>
+                <span class="anchor-io-value">C D E G A</span>
+              </div>
+              <div class="anchor-io">
+                <span class="anchor-io-label">bell occluded</span>
+                <span class="anchor-io-value is-blocked">F</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="anchor-versus" role="radiogroup" aria-label="Planning mode">
+            <button type="button" class="anchor-mode" role="radio" data-mode="replay" aria-checked="false" tabindex="-1">
+              <span class="anchor-mode-name">Replay baseline</span>
+              <span class="anchor-mode-sub">executes what it was told</span>
+            </button>
+            <button type="button" class="anchor-mode" role="radio" data-mode="anchored" aria-checked="true" tabindex="0">
+              <span class="anchor-mode-name">Co-policy, anchored planner</span>
+              <span class="anchor-mode-sub">answers the motif</span>
+            </button>
+          </div>
+
+          <div class="anchor-outcome" data-anchor-outcome>
+            <div class="anchor-card anchor-response">
+              <div class="anchor-card-head">Robot response</div>
+              <div class="anchor-response-body">
+                <p class="anchor-notes" data-outcome-notes>C &ndash; G &ndash; Am &ndash; Em</p>
+                <p class="anchor-outcome-copy" data-outcome-copy>
+                  A complementary progression the human never played, with syncopated
+                  accompaniment and accented down-beats. F is left out because the camera saw
+                  that bell occluded.
+                </p>
+                <ul class="anchor-verdict" data-outcome-verdict>
+                  <li class="is-yes">new material, not a copy</li>
+                  <li class="is-yes">avoids the occluded bell</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <p class="anchor-source">
+            Both responses are the ones printed in the paper&rsquo;s prompt figure. Under the
+            deployed GMP policy, anchoring the planner raises retained expert scores by
+            <strong>+13.2</strong> points in semantic music co-creation and <strong>+10.6</strong>
+            in concerto co-creation, from blinded ratings by ten professional chime players.
+          </p>
+
+          <h4 class="anchor-subhead">Where the constraint comes from</h4>
+          <p class="explorer-hint">
+            The mood word is resolved against a small anchor bank before the planner runs. All
+            four anchors are reproduced verbatim from
+            <code>Real_robot/semantic_anchors.json</code>, and the prompt below is the one
+            <code>create_music_prompt()</code> builds in
+            <code>Real_robot/music_creation.py</code>. Highlighted lines are the ones the anchor
+            writes.
+          </p>
 
           <div class="stage-chips" role="radiogroup" aria-label="Mood anchor">
             <button type="button" class="chip" role="radio" data-anchor="joyful" aria-checked="true" tabindex="0">

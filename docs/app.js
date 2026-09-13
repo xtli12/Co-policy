@@ -684,6 +684,33 @@
    * numbers because create_music_prompt() formats seed notes that way. */
   var SEED_NOTES = "Note60 | Note64 | Note67";
 
+  /* Both responses are the two printed in the paper's prompt figure for the same
+   * joyful anchor, motif, and observed instrument state. Nothing here is inferred
+   * for other moods, because the paper works through this one case only. */
+  var MODES = {
+    replay: {
+      notes: "C4  E4  G4",
+      copy:
+        "Exactly the notes the human just played, handed straight back. Nothing is " +
+        "contributed, and nothing about the instrument had to be understood to produce it.",
+      verdict: [
+        { ok: false, text: "echoes the input" },
+        { ok: false, text: "no reasoning about which bells are reachable" }
+      ]
+    },
+    anchored: {
+      notes: "C \u2013 G \u2013 Am \u2013 Em",
+      copy:
+        "A complementary progression the human never played, with syncopated " +
+        "accompaniment and accented down-beats. F is left out because the camera saw " +
+        "that bell occluded.",
+      verdict: [
+        { ok: true, text: "new material, not a copy" },
+        { ok: true, text: "avoids the occluded bell" }
+      ]
+    }
+  };
+
   function initAnchorExplorer() {
     var root = document.querySelector("[data-anchor-explorer]");
     if (!root) {
@@ -788,8 +815,59 @@
       });
     });
 
+    /* ---- replay versus anchored planning ---- */
+
+    var modeButtons = toArray(root.querySelectorAll("[data-mode]"));
+    var outcome = root.querySelector("[data-anchor-outcome]");
+    var outNotes = root.querySelector("[data-outcome-notes]");
+    var outCopy = root.querySelector("[data-outcome-copy]");
+    var outVerdict = root.querySelector("[data-outcome-verdict]");
+
+    function selectMode(mode, moveFocus) {
+      var spec = MODES[mode];
+      if (!spec) {
+        return;
+      }
+
+      modeButtons.forEach(function (button) {
+        var on = button.getAttribute("data-mode") === mode;
+        button.setAttribute("aria-checked", on ? "true" : "false");
+        button.tabIndex = on ? 0 : -1;
+        if (on && moveFocus) {
+          button.focus();
+        }
+      });
+
+      outcome.classList.toggle("is-replay", mode === "replay");
+      outNotes.textContent = spec.notes;
+      outCopy.textContent = spec.copy;
+
+      outVerdict.textContent = "";
+      spec.verdict.forEach(function (item) {
+        var li = document.createElement("li");
+        li.className = item.ok ? "is-yes" : "is-no";
+        li.textContent = item.text;
+        outVerdict.appendChild(li);
+      });
+    }
+
+    modeButtons.forEach(function (button, index) {
+      button.addEventListener("click", function () {
+        selectMode(button.getAttribute("data-mode"), false);
+      });
+      button.addEventListener("keydown", function (event) {
+        var next = radioKeyTarget(event.key, index, modeButtons.length);
+        if (next === null) {
+          return;
+        }
+        event.preventDefault();
+        selectMode(modeButtons[next].getAttribute("data-mode"), true);
+      });
+    });
+
     root.classList.add("is-interactive");
     select("joyful", false);
+    selectMode("anchored", false);
   }
 
   function boot() {

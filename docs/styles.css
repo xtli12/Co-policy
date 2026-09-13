@@ -1247,6 +1247,164 @@ footer p {
   white-space: pre-wrap;
 }
 
+.anchor-scene {
+  border: 1px solid #c0bdad;
+  background: var(--panel-light);
+  box-shadow: 3px 3px 0 #c0bdad;
+}
+
+.anchor-scene-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.6rem;
+  padding: 0.9rem;
+}
+
+.anchor-io-label {
+  display: block;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.anchor-io-value {
+  display: block;
+  margin-top: 0.2rem;
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.anchor-io-value.is-blocked {
+  color: #a03030;
+  text-decoration: line-through;
+}
+
+.anchor-versus {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.5rem 0;
+}
+
+.anchor-mode {
+  flex: 1 1 16rem;
+  border: 1px solid #c0bdad;
+  background: var(--panel-light);
+  box-shadow: 2px 2px 0 #c0bdad;
+  padding: 0.6rem 0.9rem;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.anchor-mode:hover {
+  border-color: #111111;
+}
+
+.anchor-mode[aria-checked="true"] {
+  border-color: var(--yellow-dark);
+  background: var(--yellow);
+  box-shadow: 2px 2px 0 var(--yellow-dark);
+}
+
+.anchor-mode-name {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.anchor-mode-sub {
+  display: block;
+  margin-top: 0.1rem;
+  color: var(--muted);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.anchor-mode[aria-checked="true"] .anchor-mode-sub {
+  color: rgba(17, 17, 17, 0.62);
+}
+
+.anchor-response-body {
+  padding: 0.9rem;
+}
+
+.anchor-notes {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: clamp(1.3rem, 3.4vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.anchor-outcome.is-replay .anchor-notes {
+  color: #8a8a8a;
+}
+
+.anchor-outcome-copy {
+  margin: 0.6rem 0 0;
+  max-width: 46rem;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.anchor-verdict {
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.anchor-verdict li {
+  border: 1px solid #c0bdad;
+  background: var(--background);
+  padding: 0.15rem 0.5rem;
+  font-size: 11px;
+}
+
+.anchor-verdict li::before {
+  margin-right: 0.35rem;
+  font-weight: 700;
+}
+
+.anchor-verdict li.is-yes::before {
+  content: "\2713";
+  color: var(--green);
+}
+
+.anchor-verdict li.is-no::before {
+  content: "\2717";
+  color: #a03030;
+}
+
+.anchor-source {
+  max-width: 62rem;
+  margin: 1.5rem 0 0;
+  border-left: 3px solid var(--yellow-dark);
+  padding: 0.25rem 0 0.25rem 1rem;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.anchor-subhead {
+  margin: 3rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+
+/* .explorer-hint carries no bottom margin, so the chip row would otherwise sit
+   directly on its last line. Scoped to avoid shifting the other explorers. */
+.anchor-explorer .explorer-hint + .stage-chips {
+  margin-top: 1.5rem;
+}
+
 /* Highlight stays inline so the surrounding text nodes keep their newlines. */
 .anchor-line.is-anchor {
   background: var(--yellow);
