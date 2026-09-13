@@ -693,7 +693,7 @@
       /* A playback robot is handed the notes, so the observed instrument state
          never enters the decision. The bell row dims to say so. */
       bellsIdle: true,
-      bellsSub: "camera ignored",
+      bellsSub: "state ignored",
       foot:
         "The three blocks land on the human's blocks exactly, and nothing about the "
         + "instrument had to be understood to produce them.",
@@ -705,12 +705,12 @@
     anchored: {
       laneSub: "answers",
       bellsIdle: false,
-      bellsSub: "camera checked",
+      bellsSub: "state consulted",
       foot:
-        "The plan never reaches for F, so the arm keeps clear of the blocked bell.",
+        "The plan leaves out F, so the arm keeps clear of the unavailable bell.",
       verdict: [
         { ok: true, text: "new material, not a copy" },
-        { ok: true, text: "avoids the occluded bell" }
+        { ok: true, text: "keeps clear of the unavailable bell" }
       ]
     }
   };
