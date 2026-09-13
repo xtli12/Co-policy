@@ -1247,39 +1247,225 @@ footer p {
   white-space: pre-wrap;
 }
 
-.anchor-scene {
+.anchor-stage,
+.anchor-gain {
   border: 1px solid #c0bdad;
   background: var(--panel-light);
   box-shadow: 3px 3px 0 #c0bdad;
-}
-
-.anchor-scene-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.6rem;
   padding: 0.9rem;
 }
 
-.anchor-io-label {
+.anchor-gain {
+  margin-top: 1.5rem;
+  padding-top: 0;
+}
+
+/* A four-beat timeline cannot stack into a phone column, and letting it shrink to
+   fit drops the labels to about 7px. Hold a floor on the drawing width and let a
+   narrow screen pan instead; wide screens never see the scrollbar. */
+.anchor-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.anchor-svg {
   display: block;
-  color: var(--muted);
+  width: 100%;
+  min-width: 40rem;
+  height: auto;
+}
+
+/* SVG text cannot wrap, so the caption lives in HTML and reflows on narrow screens. */
+.anchor-foot {
+  margin: 0.6rem 0 0;
+  max-width: 56rem;
   font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* ---- shared SVG type ---- */
+
+.anchor-svg text {
+  font-family: var(--mono);
+  fill: var(--foreground);
+}
+
+.a-axis,
+.a-beats text,
+.a-lane-sub,
+.a-bell-tag {
+  font-size: 9px;
+  fill: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+.a-lane {
   font-size: 10px;
-  text-transform: uppercase;
+  font-weight: 700;
+  text-anchor: end;
+  letter-spacing: 0.08em;
+}
+
+.a-lane-sub {
+  text-anchor: end;
+}
+
+.a-grid,
+.a-grid-v line {
+  stroke: #d8d3bd;
+  stroke-width: 1;
+}
+
+/* ---- timeline stage ---- */
+
+.a-note rect {
+  stroke-width: 1.5;
+}
+
+.a-note text {
+  font-size: 15px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.a-note.is-human rect {
+  fill: var(--panel);
+  stroke: #8f8a70;
+}
+
+/* The replay blocks deliberately match the human blocks exactly, so the two
+   lanes read as one shape stacked twice. */
+.a-note.is-replay rect {
+  fill: var(--panel);
+  stroke: #8f8a70;
+  stroke-dasharray: 4 3;
+}
+
+.a-note.is-replay text {
+  fill: #7c7768;
+}
+
+.a-note.is-anchored rect {
+  fill: var(--yellow);
+  stroke: var(--yellow-dark);
+}
+
+.a-copy {
+  stroke: #8f8a70;
+  stroke-width: 1.5;
+  stroke-dasharray: 3 4;
+}
+
+.a-copy-note {
+  font-size: 10px;
+  fill: var(--muted);
   letter-spacing: 0.04em;
 }
 
-.anchor-io-value {
-  display: block;
-  margin-top: 0.2rem;
-  font-family: var(--mono);
-  font-size: 14px;
-  font-weight: 700;
+.a-answer {
+  stroke: var(--yellow-dark);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
 }
 
-.anchor-io-value.is-blocked {
-  color: #a03030;
-  text-decoration: line-through;
+.a-answer-head {
+  fill: var(--yellow-dark);
+}
+
+.a-accent {
+  font-size: 13px;
+  font-weight: 700;
+  fill: var(--yellow-dark);
+}
+
+.a-synco-note {
+  font-size: 9px;
+  fill: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+.a-bell path {
+  fill: var(--panel);
+  stroke: #8f8a70;
+  stroke-width: 1.5;
+}
+
+.a-bell text {
+  font-size: 13px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.a-bell.is-blocked path {
+  fill: #f0dcd8;
+  stroke: #a03030;
+}
+
+.a-bell.is-blocked line {
+  stroke: #a03030;
+  stroke-width: 2;
+}
+
+.a-bell.is-blocked text {
+  fill: #a03030;
+}
+
+.a-bell-tag {
+  text-anchor: middle;
+  fill: #a03030;
+}
+
+/* The replay baseline is handed its notes, so it never consults the camera. */
+[data-bells].is-idle {
+  opacity: 0.32;
+}
+
+/* ---- gain chart ---- */
+
+.a-group {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  fill: var(--muted);
+}
+
+.a-row {
+  font-size: 10px;
+  text-anchor: end;
+  fill: var(--foreground);
+}
+
+.a-bar {
+  stroke-width: 1.5;
+}
+
+.a-bar.is-base {
+  fill: var(--panel);
+  stroke: #8f8a70;
+}
+
+.a-bar.is-anchored {
+  fill: var(--yellow);
+  stroke: var(--yellow-dark);
+}
+
+/* Anchored at the start so the number clears the bar's right border. */
+.a-val {
+  font-size: 11px;
+  text-anchor: start;
+  fill: var(--muted);
+}
+
+.a-val.is-strong {
+  font-weight: 700;
+  fill: var(--foreground);
+}
+
+.a-delta {
+  font-size: 12px;
+  font-weight: 700;
+  fill: var(--green);
 }
 
 .anchor-versus {
@@ -1327,29 +1513,6 @@ footer p {
 
 .anchor-mode[aria-checked="true"] .anchor-mode-sub {
   color: rgba(17, 17, 17, 0.62);
-}
-
-.anchor-response-body {
-  padding: 0.9rem;
-}
-
-.anchor-notes {
-  margin: 0;
-  font-family: var(--mono);
-  font-size: clamp(1.3rem, 3.4vw, 1.9rem);
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
-.anchor-outcome.is-replay .anchor-notes {
-  color: #8a8a8a;
-}
-
-.anchor-outcome-copy {
-  margin: 0.6rem 0 0;
-  max-width: 46rem;
-  font-size: 13px;
-  line-height: 1.6;
 }
 
 .anchor-verdict {

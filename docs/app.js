@@ -689,21 +689,25 @@
    * for other moods, because the paper works through this one case only. */
   var MODES = {
     replay: {
-      notes: "C4  E4  G4",
-      copy:
-        "Exactly the notes the human just played, handed straight back. Nothing is " +
-        "contributed, and nothing about the instrument had to be understood to produce it.",
+      laneSub: "repeats",
+      /* A playback robot is handed the notes, so the observed instrument state
+         never enters the decision. The bell row dims to say so. */
+      bellsIdle: true,
+      bellsSub: "camera ignored",
+      foot:
+        "The three blocks land on the human's blocks exactly, and nothing about the "
+        + "instrument had to be understood to produce them.",
       verdict: [
         { ok: false, text: "echoes the input" },
         { ok: false, text: "no reasoning about which bells are reachable" }
       ]
     },
     anchored: {
-      notes: "C \u2013 G \u2013 Am \u2013 Em",
-      copy:
-        "A complementary progression the human never played, with syncopated " +
-        "accompaniment and accented down-beats. F is left out because the camera saw " +
-        "that bell occluded.",
+      laneSub: "answers",
+      bellsIdle: false,
+      bellsSub: "camera checked",
+      foot:
+        "The plan never reaches for F, so the arm keeps clear of the blocked bell.",
       verdict: [
         { ok: true, text: "new material, not a copy" },
         { ok: true, text: "avoids the occluded bell" }
@@ -818,9 +822,11 @@
     /* ---- replay versus anchored planning ---- */
 
     var modeButtons = toArray(root.querySelectorAll("[data-mode]"));
-    var outcome = root.querySelector("[data-anchor-outcome]");
-    var outNotes = root.querySelector("[data-outcome-notes]");
-    var outCopy = root.querySelector("[data-outcome-copy]");
+    var tracks = toArray(root.querySelectorAll("[data-track]"));
+    var bells = root.querySelector("[data-bells]");
+    var bellsSub = root.querySelector("[data-bells-sub]");
+    var laneSub = root.querySelector("[data-lane-sub]");
+    var stageFoot = root.querySelector("[data-stage-foot]");
     var outVerdict = root.querySelector("[data-outcome-verdict]");
 
     function selectMode(mode, moveFocus) {
@@ -838,9 +844,16 @@
         }
       });
 
-      outcome.classList.toggle("is-replay", mode === "replay");
-      outNotes.textContent = spec.notes;
-      outCopy.textContent = spec.copy;
+      /* Only one response track is drawn at a time; both occupy the same lane. */
+      tracks.forEach(function (track) {
+        var on = track.getAttribute("data-track") === mode;
+        track.style.display = on ? "" : "none";
+      });
+
+      bells.classList.toggle("is-idle", spec.bellsIdle);
+      bellsSub.textContent = spec.bellsSub;
+      laneSub.textContent = spec.laneSub;
+      stageFoot.textContent = spec.foot;
 
       outVerdict.textContent = "";
       spec.verdict.forEach(function (item) {

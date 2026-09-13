@@ -10,8 +10,8 @@
     />
     <!-- GitHub Pages serves these with max-age=600, so bump ?v= on every change
          or a returning reader keeps the previous stylesheet and script. -->
-    <link rel="stylesheet" href="styles.css?v=3" />
-    <script src="app.js?v=3" defer></script>
+    <link rel="stylesheet" href="styles.css?v=4" />
+    <script src="app.js?v=4" defer></script>
   </head>
   <body>
     <div class="page">
@@ -259,32 +259,6 @@
             </p>
           </div>
 
-          <div class="anchor-scene">
-            <div class="anchor-card-head">What the agent is given</div>
-            <div class="anchor-scene-grid">
-              <div class="anchor-io">
-                <span class="anchor-io-label">human motif</span>
-                <span class="anchor-io-value">C4 E4 G4</span>
-              </div>
-              <div class="anchor-io">
-                <span class="anchor-io-label">tempo</span>
-                <span class="anchor-io-value">120 BPM</span>
-              </div>
-              <div class="anchor-io">
-                <span class="anchor-io-label">spoken mood</span>
-                <span class="anchor-io-value">joyful</span>
-              </div>
-              <div class="anchor-io">
-                <span class="anchor-io-label">bells the camera sees free</span>
-                <span class="anchor-io-value">C D E G A</span>
-              </div>
-              <div class="anchor-io">
-                <span class="anchor-io-label">bell occluded</span>
-                <span class="anchor-io-value is-blocked">F</span>
-              </div>
-            </div>
-          </div>
-
           <div class="anchor-versus" role="radiogroup" aria-label="Planning mode">
             <button type="button" class="anchor-mode" role="radio" data-mode="replay" aria-checked="false" tabindex="-1">
               <span class="anchor-mode-name">Replay baseline</span>
@@ -296,30 +270,192 @@
             </button>
           </div>
 
-          <div class="anchor-outcome" data-anchor-outcome>
-            <div class="anchor-card anchor-response">
-              <div class="anchor-card-head">Robot response</div>
-              <div class="anchor-response-body">
-                <p class="anchor-notes" data-outcome-notes>C &ndash; G &ndash; Am &ndash; Em</p>
-                <p class="anchor-outcome-copy" data-outcome-copy>
-                  A complementary progression the human never played, with syncopated
-                  accompaniment and accented down-beats. F is left out because the camera saw
-                  that bell occluded.
-                </p>
-                <ul class="anchor-verdict" data-outcome-verdict>
-                  <li class="is-yes">new material, not a copy</li>
-                  <li class="is-yes">avoids the occluded bell</li>
-                </ul>
-              </div>
+          <div class="anchor-stage" data-anchor-outcome>
+            <div class="anchor-scroll">
+            <svg
+              class="anchor-svg"
+              viewBox="0 0 720 316"
+              role="img"
+              data-stage-svg
+              aria-label="Time-line comparison of the two robot responses to the same human motif"
+            >
+              <!-- beat ruler -->
+              <text class="a-axis" x="104" y="16">BEAT</text>
+              <g class="a-beats">
+                <text class="a-axis" x="174" y="16">1</text>
+                <text class="a-axis" x="314" y="16">2</text>
+                <text class="a-axis" x="454" y="16">3</text>
+                <text class="a-axis" x="594" y="16">4</text>
+                <line class="a-grid" x1="104" y1="24" x2="104" y2="214" />
+                <line class="a-grid" x1="244" y1="24" x2="244" y2="214" />
+                <line class="a-grid" x1="384" y1="24" x2="384" y2="214" />
+                <line class="a-grid" x1="524" y1="24" x2="524" y2="214" />
+                <line class="a-grid" x1="664" y1="24" x2="664" y2="214" />
+              </g>
+
+              <!-- what the human played -->
+              <text class="a-lane" x="96" y="56">HUMAN</text>
+              <text class="a-lane-sub" x="96" y="70">plays a motif</text>
+              <g class="a-note is-human">
+                <rect x="114" y="36" width="120" height="42" />
+                <text x="174" y="63">C4</text>
+              </g>
+              <g class="a-note is-human">
+                <rect x="254" y="36" width="120" height="42" />
+                <text x="314" y="63">E4</text>
+              </g>
+              <g class="a-note is-human">
+                <rect x="394" y="36" width="120" height="42" />
+                <text x="454" y="63">G4</text>
+              </g>
+
+              <!-- replay: the same three notes handed straight back -->
+              <g data-track="replay">
+                <line class="a-copy" x1="174" y1="80" x2="174" y2="150" />
+                <line class="a-copy" x1="314" y1="80" x2="314" y2="150" />
+                <line class="a-copy" x1="454" y1="80" x2="454" y2="150" />
+                <text class="a-copy-note" x="470" y="118">identical, note for note</text>
+                <g class="a-note is-replay">
+                  <rect x="114" y="152" width="120" height="42" />
+                  <text x="174" y="179">C4</text>
+                </g>
+                <g class="a-note is-replay">
+                  <rect x="254" y="152" width="120" height="42" />
+                  <text x="314" y="179">E4</text>
+                </g>
+                <g class="a-note is-replay">
+                  <rect x="394" y="152" width="120" height="42" />
+                  <text x="454" y="179">G4</text>
+                </g>
+              </g>
+
+              <!-- anchored: a different progression over the same beat grid. The
+                   link is drawn lane-to-lane, because the paper gives no note-level
+                   correspondence between the motif and the response. -->
+              <g data-track="anchored">
+                <line class="a-answer" x1="114" y1="118" x2="664" y2="118" />
+                <path class="a-answer-head" d="M382 120 l14 0 l-7 12 z" />
+                <text class="a-copy-note" x="114" y="110">re-composed over the same beat grid</text>
+                <g class="a-note is-anchored">
+                  <rect x="114" y="152" width="120" height="42" />
+                  <text x="174" y="179">C</text>
+                  <text class="a-accent" x="122" y="148">&gt;</text>
+                </g>
+                <g class="a-note is-anchored">
+                  <rect x="254" y="152" width="120" height="42" />
+                  <text x="314" y="179">G</text>
+                  <text class="a-accent" x="262" y="148">&gt;</text>
+                </g>
+                <g class="a-note is-anchored">
+                  <rect x="394" y="152" width="120" height="42" />
+                  <text x="454" y="179">Am</text>
+                  <text class="a-accent" x="402" y="148">&gt;</text>
+                </g>
+                <g class="a-note is-anchored">
+                  <rect x="534" y="152" width="120" height="42" />
+                  <text x="594" y="179">Em</text>
+                  <text class="a-accent" x="542" y="148">&gt;</text>
+                </g>
+                <text class="a-synco-note" x="114" y="210">
+                  &gt; accented down-beats, with syncopated accompaniment between them
+                </text>
+              </g>
+              <text class="a-lane" x="96" y="172">ROBOT</text>
+              <text class="a-lane-sub" x="96" y="186" data-lane-sub>answers</text>
+
+              <!-- instrument state the camera reported -->
+              <g data-bells>
+                <text class="a-lane" x="96" y="268">BELLS</text>
+                <text class="a-lane-sub" x="96" y="282" data-bells-sub>camera checked</text>
+                <g class="a-bell">
+                  <path d="M118 246 L168 246 L182 290 L104 290 Z" />
+                  <text x="143" y="276">C</text>
+                </g>
+                <g class="a-bell">
+                  <path d="M212 246 L262 246 L276 290 L198 290 Z" />
+                  <text x="237" y="276">D</text>
+                </g>
+                <g class="a-bell">
+                  <path d="M306 246 L356 246 L370 290 L292 290 Z" />
+                  <text x="331" y="276">E</text>
+                </g>
+                <g class="a-bell is-blocked">
+                  <path d="M400 246 L450 246 L464 290 L386 290 Z" />
+                  <text x="425" y="276">F</text>
+                  <line x1="392" y1="288" x2="458" y2="248" />
+                  <text class="a-bell-tag" x="425" y="308">occluded</text>
+                </g>
+                <g class="a-bell">
+                  <path d="M494 246 L544 246 L558 290 L480 290 Z" />
+                  <text x="519" y="276">G</text>
+                </g>
+                <g class="a-bell">
+                  <path d="M588 246 L638 246 L652 290 L574 290 Z" />
+                  <text x="613" y="276">A</text>
+                </g>
+              </g>
+            </svg>
             </div>
+
+            <p class="anchor-foot" data-stage-foot>
+              The plan never reaches for F, so the arm keeps clear of the blocked bell.
+            </p>
+
+            <ul class="anchor-verdict" data-outcome-verdict>
+              <li class="is-yes">new material, not a copy</li>
+              <li class="is-yes">avoids the occluded bell</li>
+            </ul>
           </div>
 
-          <p class="anchor-source">
-            Both responses are the ones printed in the paper&rsquo;s prompt figure. Under the
-            deployed GMP policy, anchoring the planner raises retained expert scores by
-            <strong>+13.2</strong> points in semantic music co-creation and <strong>+10.6</strong>
-            in concerto co-creation, from blinded ratings by ten professional chime players.
-          </p>
+          <div class="anchor-gain">
+            <div class="anchor-card-head">What anchoring is worth, scored by ten chime players</div>
+            <div class="anchor-scroll">
+            <svg
+              class="anchor-svg"
+              viewBox="0 0 720 214"
+              role="img"
+              aria-label="Retained expert scores rise from 61.6 to 74.8 in semantic music co-creation and from 51.4 to 62.0 in concerto co-creation"
+            >
+              <g class="a-grid-v">
+                <line x1="150" y1="30" x2="150" y2="182" />
+                <line x1="282" y1="30" x2="282" y2="182" />
+                <line x1="415" y1="30" x2="415" y2="182" />
+                <line x1="547" y1="30" x2="547" y2="182" />
+                <line x1="680" y1="30" x2="680" y2="182" />
+              </g>
+              <g class="a-axis">
+                <text x="150" y="198" text-anchor="middle">0</text>
+                <text x="282" y="198" text-anchor="middle">25</text>
+                <text x="415" y="198" text-anchor="middle">50</text>
+                <text x="547" y="198" text-anchor="middle">75</text>
+                <text x="680" y="198" text-anchor="middle">100</text>
+              </g>
+
+              <text class="a-group" x="0" y="22">SEMANTIC MUSIC CO-CREATION</text>
+              <text class="a-row" x="142" y="49">Qwen-VL</text>
+              <rect class="a-bar is-base" x="150" y="36" width="326" height="18" />
+              <text class="a-val" x="484" y="49">61.6</text>
+              <text class="a-row" x="142" y="76">anchored F-Qwen</text>
+              <rect class="a-bar is-anchored" x="150" y="63" width="396" height="18" />
+              <text class="a-val is-strong" x="554" y="76">74.8</text>
+              <text class="a-delta" x="600" y="76">+13.2</text>
+
+              <text class="a-group" x="0" y="114">CONCERTO CO-CREATION</text>
+              <text class="a-row" x="142" y="141">Qwen-VL</text>
+              <rect class="a-bar is-base" x="150" y="128" width="272" height="18" />
+              <text class="a-val" x="430" y="141">51.4</text>
+              <text class="a-row" x="142" y="168">anchored F-Qwen</text>
+              <rect class="a-bar is-anchored" x="150" y="155" width="329" height="18" />
+              <text class="a-val is-strong" x="487" y="168">62.0</text>
+              <text class="a-delta" x="533" y="168">+10.6</text>
+            </svg>
+            </div>
+            <p class="anchor-source">
+              Retained average scores for the deployed GMP policy, blinded and randomized, with no
+              trimming of high-variance artistic ratings. The two responses above are the ones
+              printed in the paper&rsquo;s prompt figure.
+            </p>
+          </div>
 
           <h4 class="anchor-subhead">Where the constraint comes from</h4>
           <p class="explorer-hint">
